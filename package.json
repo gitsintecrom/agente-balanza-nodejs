@@ -2,6 +2,11 @@
   "name": "agente-balanza",
   "version": "1.0.0",
   "main": "agente.js",
+  "scripts": {
+    "start": "node agente.js",
+    "dev": "nodemon agente.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.0.0",
