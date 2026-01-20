@@ -44,9 +44,11 @@ if (MODO_SIMULACION_ACTIVO) {
   
   setInterval(() => {
     // Usamos las nuevas variables para generar el peso en el rango deseado
-    const pesoSimulado = (Math.random() * (SIMULACION_MAX - SIMULACION_MIN) + SIMULACION_MIN).toFixed(3);
-    // const pesoSimulado = 1435;
-    // const pesoSimulado = 228;
+    //const pesoSimulado = (Math.random() * (SIMULACION_MAX - SIMULACION_MIN) + SIMULACION_MIN).toFixed(3);
+    const pesoSimulado = 4100;
+    // const pesoSimulado = 3750;
+    //const pesoSimulado = 100
+    // const pesoSimulado = 1000;
     ultimoPesoRecibido = pesoSimulado;
     console.log(`Peso simulado generado: ${ultimoPesoRecibido}`);
   }, 3000);
