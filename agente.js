@@ -45,7 +45,7 @@ if (MODO_SIMULACION_ACTIVO) {
   setInterval(() => {
     // Usamos las nuevas variables para generar el peso en el rango deseado
     //const pesoSimulado = (Math.random() * (SIMULACION_MAX - SIMULACION_MIN) + SIMULACION_MIN).toFixed(3);
-    const pesoSimulado = 4100;
+    const pesoSimulado = 490;
     // const pesoSimulado = 3750;
     //const pesoSimulado = 100
     // const pesoSimulado = 1000;
@@ -108,11 +108,46 @@ app.get('/peso', (req, res) => {
 });
 
 // Iniciar el servidor del agente
-app.listen(AGENTE_PORT, () => {
+const server = app.listen(AGENTE_PORT, () => {
   console.log(`*** Agente de Balanza corriendo en http://localhost:${AGENTE_PORT} ***`);
   if (MODO_SIMULACION_ACTIVO) {
     console.log(`Modo simulación activado. Rango de peso: ${SIMULACION_MIN}-${SIMULACION_MAX} Kg.`);
   } else {
     console.log(`Intentando conectar con el puerto ${PUERTO_BALANZA} a ${BAUDRATE_BALANZA} baudios...`);
   }
+});
+
+// Manejo de señales para cierre limpio
+process.on('SIGINT', () => {
+  console.log('\n🔻 Recibida señal SIGINT - Cerrando servidor...');
+  server.close(() => {
+    console.log('✅ Servidor cerrado correctamente');
+    if (!MODO_SIMULACION_ACTIVO) {
+      // Cierra el puerto serie si existe
+      if (port) {
+        port.close(() => {
+          console.log('✅ Puerto serie cerrado');
+          process.exit(0);
+        });
+      } else {
+        process.exit(0);
+      }
+    } else {
+      process.exit(0);
+    }
+  });
+
+  // Forzar cierre después de 5 segundos si no responde
+  setTimeout(() => {
+    console.log('⚠️  Forzando cierre del proceso...');
+    process.exit(1);
+  }, 5000);
+});
+
+process.on('SIGTERM', () => {
+  console.log('\n🔻 Recibida señal SIGTERM - Cerrando servidor...');
+  server.close(() => {
+    console.log('✅ Servidor cerrado correctamente');
+    process.exit(0);
+  });
 });
