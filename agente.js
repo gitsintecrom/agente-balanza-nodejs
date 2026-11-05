@@ -179,6 +179,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const express = require('express');
 const { SerialPort } = require('serialport');
 const cors = require('cors');
@@ -208,7 +238,7 @@ const balanzasConfig = [
   {
     id: '2',
     nombre: 'Balanza 2 (15 Ton)',
-    puerto: process.env.PUERTO_BALANZA_2 || 'COM2',
+    puerto: process.env.PUERTO_BALANZA_2 || 'COM5',
     simMin: parseFloat(process.env.SIMULACION_MIN_2) || 0,
     simMax: parseFloat(process.env.SIMULACION_MAX_2) || 15000
   }
